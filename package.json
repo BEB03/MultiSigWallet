@@ -1,0 +1,19 @@
+{
+  "name": "multisigwallet",
+  "version": "1.0.0",
+  "description": "이더리움 다중 서명 지갑 서비스를 구현해보는 개인 프로젝트입니다.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Donghyun-Baek/MultiSigWallet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Donghyun-Baek/MultiSigWallet/issues"
+  },
+  "homepage": "https://github.com/Donghyun-Baek/MultiSigWallet#readme"
+}
