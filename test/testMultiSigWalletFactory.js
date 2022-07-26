@@ -1,12 +1,15 @@
 const MultiSigWalletFactory = artifacts.require("MultiSigWalletFactory");
 
-contract("MultiSigWalletFactory.sol", () => {
+contract("MultiSigWalletFactory.sol", (accounts) => {
+  let instance;
+  console.log(accounts);
+
+  beforeEach(async () => {
+    instance = await MultiSigWalletFactory.new();
+  });
+
   it("test for deploy by Factory", async () => {
-    const instance = await MultiSigWalletFactory.deployed();
-    const response = await instance.createWallet([
-      "0x4fD169B6a82542DaA2E18c6065CE3d28721472D6",
-      "0x64C67968875e5bA4ba6F0AF7991fFd87779fb16c",
-    ]);
+    const response = await instance.createWallet([accounts[0], accounts[1]]);
     expect(typeof response).equal("object");
   });
 });
