@@ -2,7 +2,6 @@ const MultiSigWalletFactory = artifacts.require("MultiSigWalletFactory");
 
 contract("MultiSigWalletFactory.sol", (accounts) => {
   let instance;
-  console.log(accounts);
 
   beforeEach(async () => {
     instance = await MultiSigWalletFactory.new();
