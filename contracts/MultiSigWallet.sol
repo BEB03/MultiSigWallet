@@ -35,7 +35,7 @@ contract MultiSigWallet {
     }
 
     // function
-    function addTransaction(address _receipt, uint _value) public {
+    function addTransaction(address _receipt, uint _value) onlyOwners() public {
 
         uint transactionId = transactionCount;
 

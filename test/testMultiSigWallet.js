@@ -59,13 +59,6 @@ contract("MultiSigWallet.sol", (accounts) => {
     // owners만 호출 가능함 : confirmTransaction에서 테스트 하였으므로 생략
 
     // 하나의 transaction 당 한 번만 호출 가능함
-    const response2 = await instance.executeTransaction(0, {
-      from: accounts[0],
-    });
-
-    console.log(response == response2);
-    const receiptBalance2 = await web3.eth.getBalance(accounts[2]);
-    assert.equal(web3.utils.fromWei(receiptBalance2), 102);
 
     // 지갑 주인이 모두 confirm해야만 실행할 수 있음
     await utilities.tryCatch(() =>

@@ -9,4 +9,7 @@ contract MultiSigWalletFactory {
         MultiSigWallet wallet = new MultiSigWallet(_owners);
         return address(wallet);
     }
+    function helloWorld () public pure returns (string memory) {
+        return "hello world!";
+    }
 }
