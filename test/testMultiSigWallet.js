@@ -56,8 +56,6 @@ contract("MultiSigWallet.sol", (accounts) => {
 
     assert.equal(web3.utils.fromWei(receiptBalance), 101);
 
-    // owners만 호출 가능함 : confirmTransaction에서 테스트 하였으므로 생략
-
     // 하나의 transaction 당 한 번만 호출 가능함
 
     // 지갑 주인이 모두 confirm해야만 실행할 수 있음
@@ -73,16 +71,9 @@ contract("MultiSigWallet.sol", (accounts) => {
 
 메모장
 
-  // 에러가 나는 경우의 테스트를 도대체 어떻게 해야 하나
-
   배열도 오브젝트다. 배열 확인은 array.isarray()로 하자.
-
-  call, 저수준 등을 사용해서 작업하고 있었음. 왜일까? : send나 transfer 보다 call이 '추천'됨. 이유까지는 확인하지 못하였음 : 이스탄불 하드포크로 opcode 가스비가 증가해서 고정 가스 사용하는 send transfer는 사용하지 않음.
-
-  보내기 작동 안되네 뭐지 : payable 로 받는 주소를 설정하자.
 
   beforeeach : 각 it이 실행되기 전에 한 번씩 실행됨
   before : 해당 테스트가 시작되기 전에 1번만 실행됨
-
 
 */
