@@ -15,6 +15,5 @@ describe("transaction", () => {
     };
     await addTransaction(req, res);
     expect(res.status).toBeCalledWith(201);
-    expect(res.send).toBeCalledWith("yes");
   });
 });

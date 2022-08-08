@@ -6,6 +6,7 @@ contract MultiSigWallet {
     // storage
     uint transactionCount;
     address[2] owners;
+    mapping (address => bool) isOwner;
     mapping (uint => Transaction) transactions;
     mapping (uint => mapping (address => bool)) confirmation;
 
@@ -18,7 +19,7 @@ contract MultiSigWallet {
 
     // modifier
     modifier onlyOwners() {
-        require(msg.sender == owners[0] || msg.sender == owners[1] );
+        require(isOwner[msg.sender]);
         _;
     }
 
@@ -30,29 +31,31 @@ contract MultiSigWallet {
     // enum 
 
     // constructor
-    constructor(address[2] memory _owners) payable{
+    constructor(address[2] memory _owners) payable {
         owners = _owners;
+        for (uint i=0; i < _owners.length; i++) {
+            isOwner[_owners[i]] = true;
+        }
     }
 
     // function
     function addTransaction(address _receipt, uint _value) onlyOwners() public {
 
-        uint transactionId = transactionCount;
+        transactionCount++;
 
-        transactions[transactionId] = Transaction({
+        transactions[transactionCount] = Transaction({
             receipt: _receipt,
             value: _value,
             isExecuted: false
         });
 
-        transactionCount++;
-
-        emit Add(transactionCount, transactions[transactionId]);
+        emit Add(transactionCount, transactions[transactionCount]);
     }
 
     function confirmTransaction(uint _transactionId) onlyOwners() public {
 
         confirmation[_transactionId][msg.sender] = true;
+
         emit Confirmation(confirmation[_transactionId][msg.sender], msg.sender);
     }
 
@@ -61,7 +64,7 @@ contract MultiSigWallet {
         Transaction memory target = transactions[_transactionId];
 
         require(target.isExecuted == false, "already executed");
-        require(confirmation[_transactionId][owners[0]] == true && confirmation[_transactionId][owners[1]] == true);
+        require(checkConfirmation(_transactionId) ==  true);
 
         target.isExecuted = true;
         
@@ -70,4 +73,18 @@ contract MultiSigWallet {
         emit Execute(target.receipt, target.value);
     }
 
+    function checkConfirmation (uint _transactionId) internal view returns (bool) {
+        for (uint i=0; i<owners.length; i++) {
+            if (!confirmation[_transactionId][owners[i]]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // function revokeTransaction(uint _transactionId) onlyOwners() public {
+    //     require(confirmation[_transactionId][msg.sender] = true);
+    //     confirmation[_transactionId][msg.sender] = false;
+    // }
 }
+

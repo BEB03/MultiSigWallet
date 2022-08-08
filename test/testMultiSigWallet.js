@@ -26,7 +26,7 @@ contract("MultiSigWallet.sol", (accounts) => {
   });
 
   it("confirmTransaction", async () => {
-    const response = await instance.confirmTransaction(0, {
+    const response = await instance.confirmTransaction(1, {
       from: accounts[0],
     });
 
@@ -36,17 +36,17 @@ contract("MultiSigWallet.sol", (accounts) => {
 
     // owners만 호출 가능함
     await utilities.tryCatch(() =>
-      instance.confirmTransaction(0, {
+      instance.confirmTransaction(1, {
         from: accounts[2],
       })
     );
 
     // execute에서 확인해야 하므로 1도 승인해 둠
-    await instance.confirmTransaction(0, { from: accounts[1] });
+    await instance.confirmTransaction(1, { from: accounts[1] });
   });
 
   it("executeTransaction", async () => {
-    const response = await instance.executeTransaction(0, {
+    const response = await instance.executeTransaction(1, {
       from: accounts[0],
     });
 
@@ -66,14 +66,3 @@ contract("MultiSigWallet.sol", (accounts) => {
     );
   });
 });
-
-/*
-
-메모장
-
-  배열도 오브젝트다. 배열 확인은 array.isarray()로 하자.
-
-  beforeeach : 각 it이 실행되기 전에 한 번씩 실행됨
-  before : 해당 테스트가 시작되기 전에 1번만 실행됨
-
-*/
