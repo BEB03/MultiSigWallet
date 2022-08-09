@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   next(error);
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.log(err);
   res.status(500).send(err.message);
 });

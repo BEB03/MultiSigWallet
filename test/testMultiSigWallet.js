@@ -1,38 +1,37 @@
-const MultiSigWallet = artifacts.require("MultiSigWallet");
-const utilities = require("./utilities");
+const MultiSigWallet = artifacts.require('MultiSigWallet');
+const utilities = require('./utilities');
 
-contract("MultiSigWallet.sol", (accounts) => {
+contract('MultiSigWallet.sol', (accounts) => {
   let instance;
 
   before(async () => {
     instance = await MultiSigWallet.new([accounts[0], accounts[1]], {
       value: web3.utils.toBN(10 ** 19),
     });
-    web3;
   });
 
-  it("addTransaction", async () => {
+  it('addTransaction', async () => {
     const response = await instance.addTransaction(
       accounts[2],
       web3.utils.toBN(10 ** 18)
     );
 
     assert.ok(response);
-    assert.equal(utilities.getParamFromTx(response, "transactionCount"), 1);
+    assert.equal(utilities.getParamFromTx(response, 'transactionCount'), 1);
     assert.equal(
-      utilities.getParamFromTx(response, "transaction", "receipt"),
+      utilities.getParamFromTx(response, 'transaction', 'receipt'),
       accounts[2]
     );
   });
 
-  it("confirmTransaction", async () => {
+  it('confirmTransaction', async () => {
     const response = await instance.confirmTransaction(1, {
       from: accounts[0],
     });
 
     assert.ok(response);
-    assert.equal(utilities.getParamFromTx(response, "isConfirm"), true);
-    assert.equal(utilities.getParamFromTx(response, "owner"), accounts[0]);
+    assert.equal(utilities.getParamFromTx(response, 'isConfirm'), true);
+    assert.equal(utilities.getParamFromTx(response, 'owner'), accounts[0]);
 
     // owners만 호출 가능함
     await utilities.tryCatch(() =>
@@ -45,7 +44,7 @@ contract("MultiSigWallet.sol", (accounts) => {
     await instance.confirmTransaction(1, { from: accounts[1] });
   });
 
-  it("executeTransaction", async () => {
+  it('executeTransaction', async () => {
     const response = await instance.executeTransaction(1, {
       from: accounts[0],
     });

@@ -1,11 +1,11 @@
-const Wallet = require("../schemas/wallet");
+const Web3 = require('web3');
+const Wallet = require('../schemas/wallet');
+const abi = require('../abi/MultiSigWalletFactoryABI');
 
-const Web3 = require("web3");
-const rpcURL = "http://localhost:8545";
+const rpcURL = 'http://localhost:8545';
 const web3 = new Web3(rpcURL);
 
-const abi = require("../abi/MultiSigWalletFactoryABI");
-const address = "0x9d369e03f1B12c222b88059ccE015f7872B531Dd";
+const address = '0x9d369e03f1B12c222b88059ccE015f7872B531Dd';
 
 const NameContract = new web3.eth.Contract(abi, address);
 
@@ -22,21 +22,21 @@ module.exports.create = async (req, res) => {
     const result = await NameContract.methods
       .createWallet(req.body.owners)
       .send({
-        from: "0x7d095e388D259Aa81122d3BC449F4b4CDf455289",
+        from: '0x7d095e388D259Aa81122d3BC449F4b4CDf455289',
         gas: estimatedGas,
       });
     if (result) {
-      const wallet = await Wallet.create({
+      await Wallet.create({
         address: callresult,
         owners: req.body.owners, // 처음에 요청을 보낼 때 배열 형태로 집어넣어야 하는데... 이것을 프론트에서 해야 하나 백에서 해야 하나
       });
       res.status(201).send({
-        message: "wallet create success",
+        message: 'wallet create success',
         data: result,
         calldata: callresult,
       });
     } else {
-      res.status(404).send("wallet create failure");
+      res.status(404).send('wallet create failure');
     }
   } catch (error) {
     console.error(error);
